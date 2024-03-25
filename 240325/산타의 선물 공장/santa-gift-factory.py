@@ -88,7 +88,7 @@ for _ in range(q-1):
             print(-1)
         else:
             for index in range(m):
-                conveyor_index = (value + index + 1) % m # 여기로 옮길거야
+                conveyor_index = ((value + index) % m)+1 # 여기로 옮길거야
                 if item_conveyor[conveyor_index] != -1:
                     # value에 있는걸 convayor_index로 옮겨야해
                     item_conveyor[conveyor_index].extend(item_conveyor[value])
