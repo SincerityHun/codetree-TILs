@@ -56,7 +56,7 @@ for _ in range(m):
 def get_next_pos(x,y,move_dir):
     # 현재 위치에서 가능한 위치 찾기
     for c_dir in range(DIR_NUM):
-        next_dir = (move_dir + c_dir) % DIR_NUM
+        next_dir = (move_dir + c_dir + DIR_NUM) % DIR_NUM
         nx,ny = x + dxs[next_dir],y+dys[next_dir]
         if can_go(nx,ny):
             return (nx,ny,next_dir)
@@ -100,7 +100,7 @@ def do_kill(best_route):
             dead[nx][ny][MAX_DECAY] += monster[t_num][nx][ny][i]
             # monster 비우기
             monster[t_num][nx][ny][i] = 0
-        
+
         # 그 다음 방향
         px,py = nx,ny
 def move_p():
@@ -142,7 +142,6 @@ def simulate():
     add_m()
 
 def count_monster():
-    global t
     cnt = 0
 
     for i in range(n):
