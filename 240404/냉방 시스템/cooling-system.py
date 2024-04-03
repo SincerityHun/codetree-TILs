@@ -63,8 +63,7 @@ def get_dir_ice(dir,cur_index,value): # cur_index에서 dir 방향으로 옮겨�
             check_ice[next_index[0]][next_index[1]] += value
             # 하나 감소하고
             value -= 1
-            if value == 0:
-                return
+            
 
     else:
         # 체크 장소 확인
@@ -75,10 +74,11 @@ def get_dir_ice(dir,cur_index,value): # cur_index에서 dir 방향으로 옮겨�
             flag = True
             check_ice[next_index[0]][next_index[1]] += value
             value -= 1
-            if value == 0:
-                return
+            
     if flag:
         memo.add(next_index)
+        if value == 0:
+            return
         # 그다음 장소로 보내기
         if dir in (0,4,7):
             get_dir_ice(0, next_index, value)
