@@ -207,6 +207,7 @@ def delete_duplicate():
     return result
 
 def update_list():
+    global current_monster_num
     # 중복 확인
     item_list = check_duplicated_item(1)
     # print("ITEM LIST")
@@ -218,6 +219,7 @@ def update_list():
         before_start_id = before_dict[start_id]
         # 제거
         delete_range_item(start_id,end_id)
+        current_monster_num -= duplicated_count
         # 삽입
         add_item_in_double_linked_list(duplicated_count, before_start_id)
         duplicate_count_id = next_dict[before_start_id]
