@@ -26,12 +26,11 @@ for i in range(m):
     r,c,d = map(int,sys.stdin.readline().rstrip().split())
     if d == 0: # 위
         check_up_block[(r-1,c-1)] = (r-2,c-1)
-        check_up_block[(r-2,c-1)] = (r-1,c-1)
     else: # 왼
         check_left_block[(r-1,c-1)] = (r-1,c-2)
-        check_left_block[(r-1,c-2)] = (r-1,c-1)
 
 def out_range(next_index):
+    global n
     r,c = next_index[0],next_index[1]
     return 0<=r<n and 0<=c<n
 
@@ -40,7 +39,11 @@ def check_block(cur_index,next_index):
         return True
     if check_up_block.get(cur_index) and check_up_block[cur_index] == next_index:
         return True # block 있음
+    elif check_up_block.get(next_index) and check_up_block[next_index] == cur_index:
+        return True
     if check_left_block.get(cur_index) and check_left_block[cur_index] == next_index:
+        return True
+    elif check_left_block.get(next_index) and check_left_block[next_index] == cur_index:
         return True
     return False
 
@@ -53,17 +56,16 @@ def get_dir_ice(dir,cur_index,value): # cur_index에서 dir 방향으로 옮겨�
     # cur_index 에서 dir방향으로 갈 수 있는지 확인하고 데이터 넣어놓기
     next_index = 0
     flag = False
+
     if dir<4:
         # 그 다음 이동 장소 확인
         next_index = (cur_index[0]+get_dir[dir][0],cur_index[1]+get_dir[dir][1])
         # 그 다음 이동 장소가 밖이던가, 그 사이에 벽이 있으면 이동 불가
         if check_block(cur_index,next_index) == False and next_index not in memo:
             flag = True
-            # 할당
             check_ice[next_index[0]][next_index[1]] += value
-            # 하나 감소하고
             value -= 1
-            
+
 
     else:
         # 체크 장소 확인
@@ -74,7 +76,7 @@ def get_dir_ice(dir,cur_index,value): # cur_index에서 dir 방향으로 옮겨�
             flag = True
             check_ice[next_index[0]][next_index[1]] += value
             value -= 1
-            
+
     if flag:
         memo.add(next_index)
         if value == 0:
@@ -103,9 +105,14 @@ def get_ice():
     for dir in range(4): # 0:왼,1:위,2:오,3:아래
         # 특정 방향 업데이트
         for index in current_aircon[dir]:
+            # 1. 메모 비우고
             memo.clear()
+            # 2. 그다음 위치에 5추가
             next_index = (index[0] + get_dir[dir][0], index[1] + get_dir[dir][1])
             check_ice[next_index[0]][next_index[1]] += 5
+            # 3. 다음 위치 메모
+            memo.add(next_index)
+            # 4. 바람 쏘기
             get_dir_ice(dir,next_index,4) # dir방향으로 한칸 움직인 다음에 value을 넣어줘야함
             if dir == 0:
                 get_dir_ice(4, next_index, 4)  # dir방향으로 한칸 움직인 다음에 value을 넣어줘야함
