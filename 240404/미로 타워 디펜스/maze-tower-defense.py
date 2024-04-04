@@ -10,6 +10,7 @@ global_monster_num = 0 # 지금까지 들어온 몬스터 수, 즉 새로 추가
 # 새로 넣기 전에 current_monster_num이 이미 max_monster_num과 같다면, 더이상 추가 불가.
 current_monster_num = 0 # 현재 남아있는 몬스터 수, 새로 추가할때, 이것도 같이 늘려줘야함. 단, 죽으면 이건 지워줘야 된다.
 total_score = 0 # 전체 점수
+max_monster_id = 0
 
 # 일단 2중 배열 받기 O(n)
 temp_map = [[0]*n for _ in range(n)]
@@ -37,10 +38,7 @@ def check_len_of_list():
 
 # Doubled Linked List add
 def add_item_in_double_linked_list(value:int,before_ID):
-    global global_monster_num,current_monster_num
-    if check_len_of_list() == False:
-        return
-
+    global global_monster_num,current_monster_num,max_monster_id
     global_monster_num += 1
     current_monster_num += 1
     # data_dict에 값 넣기
@@ -103,9 +101,12 @@ def add_item_from_map():
 # 더블링크드 리스트 출력
 def print_item_in_double_linked_list():
     start_index = 0
+    current_num = 0
     while next_dict[start_index] != None:
         print(data_dict[start_index],end=" ")
+        current_num += 1
         start_index = next_dict[start_index]
+    print("real: ",current_num)
     print()
 
 # map -> double linked list
@@ -201,6 +202,7 @@ def delete_duplicate():
             break
 
         for item in item_list:
+            # print("du:",item[2],"val:",item[3])
             result += item[2] * item[3]
             delete_range_item(item[0],item[1])
             current_monster_num -= item[2]
@@ -225,6 +227,26 @@ def update_list():
         duplicate_count_id = next_dict[before_start_id]
         add_item_in_double_linked_list(current_flag,duplicate_count_id)
 
+def check_maximum():
+    global current_monster_num
+    if current_monster_num <= max_monster_num:
+        return
+
+    start_id = next_dict[0]
+    number = 1
+    while start_id != -1:
+        if number == max_monster_num:
+            break
+        number += 1
+        start_id = next_dict[start_id]
+    # 삭제
+    delete_start_id = next_dict[start_id]
+    delete_end_id = before_dict[-1]
+    if delete_start_id != -1:
+        delete_range_item(delete_start_id,delete_end_id)
+
+        # 개수 반영
+        current_monster_num = max_monster_num
 # print_item_in_double_linked_list()
 
 for _ in range(m):
@@ -233,14 +255,18 @@ for _ in range(m):
     total_score += attack(d,p)
     # print("AFTER ATTACK")
     # print_item_in_double_linked_list()
+    # print("SCORE:", total_score)  # TEST
     # 3. 4번 이상 반복해 나오면 해당 몬스터 또한 삭제
     total_score += delete_duplicate()
     # print("AFTER DELETE")
     # print_item_in_double_linked_list()
+    # print("SCORE:", total_score)  # TEST
     # 4. 연속해서 같은 숫자 -> (연속한 총개수, 숫자 크기) 로 치환
     update_list()
     # print("AFTER UPDATE")
     # print_item_in_double_linked_list() # TEST
-    # print(total_score) # TEST
+    # print("SCORE:",total_score) # TEST
+    # 5. 배열 넘치는건 삭제
+    check_maximum()
 
 print(total_score)
