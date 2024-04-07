@@ -33,13 +33,14 @@ dir_r = [0,1,0, -1]
 dir_c = [1,0,-1,0]
 def predict(r,c,dir):
     count = 0
-    while matrix[r][c] != "#":
+    while matrix[r][c] == "." and (r,c) != exit_index:
         r += dir_r[dir]
         c += dir_c[dir]
         count += 1
-    r -= dir_r[dir]
-    c -= dir_c[dir]
-    count -= 1
+    if (r,c) != exit_index:
+        r -= dir_r[dir]
+        c -= dir_c[dir]
+        count -= 1
     return (r,c,count)
 def bfs():
     # 시작점 deque에 넣어두기
