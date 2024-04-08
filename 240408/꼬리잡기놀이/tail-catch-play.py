@@ -20,31 +20,36 @@ dr = [0,1,0,-1]
 dc = [1,0,-1,0]
 def check_range(r,c):
     return 0<=r<N and 0<=c<N
-def find_next_for_tail(r,c):
-    for dir in range(4):
-        if check_range(r+dr[dir],c+dc[dir]):
-            if matrix[r+dr[dir]][c+dc[dir]] in (2,3):
-                return (r+dr[dir],c+dc[dir])
-    return False
-
-def find_tail(team):
-    current_index = HEAD[team]
-    # current_index가 3이 될때까지 이동 후 찾기
-    while matrix[current_index[0]][current_index[1]] != 3 :
-        current_index = find_next_for_tail(current_index[0],current_index[1])
-    # 그 인덱스 반환
-    return current_index
-for head_index in range(team_num):
-    TAIL[head_index] = find_tail(head_index)
-
-# print(HEAD)
-# print(TAIL)
 def find_next_specific_value(r,c,value):
     for dir in range(4):
         if check_range(r+dr[dir],c+dc[dir]):
             if matrix[r+dr[dir]][c+dc[dir]] == value:
                 return (r+dr[dir],c+dc[dir])
     return False
+def find_tail(team):
+    current_index = HEAD[team]
+    # current_index가 3이 될때까지 이동 후 찾기
+    visited = set()
+    visited.add(current_index)
+    next_list = deque()
+    next_list.append(current_index)
+    while len(next_list)>0:
+        cur_index = next_list.popleft()
+        for i in range(4):
+            next_cur_index = (cur_index[0]+dr[i],cur_index[1]+dc[i])
+            if next_cur_index in visited or check_range(next_cur_index[0],next_cur_index[1]) == False:
+                continue
+            if matrix[next_cur_index[0]][next_cur_index[1]] == 2:
+                next_list.append(next_cur_index)
+                visited.add(next_cur_index)
+            elif matrix[next_cur_index[0]][next_cur_index[1]] == 3:
+                return next_cur_index
+for head_index in range(team_num):
+    TAIL[head_index] = find_tail(head_index)
+
+# print(HEAD)
+# print(TAIL)
+
 def move():
     for team in range(team_num):
         # 바로 있을 경우 생략해쌎ㅎ아 어씨발
@@ -83,7 +88,6 @@ def bfs(index):
     count = 1
     next_list.append((index,count))
     head = 0
-    tail = 0
     if matrix[index[0]][index[1]] == 1:
         head = (index, 1)
         return head
@@ -93,7 +97,7 @@ def bfs(index):
             next_pointer = (next_index[0]+dr[i],next_index[1]+dc[i])
             if next_pointer in visited or check_range(next_pointer[0],next_pointer[1]) == False:
                 continue
-            if matrix[next_pointer[0]][next_pointer[1]]  == 2:
+            if matrix[next_pointer[0]][next_pointer[1]] == 2:
                 next_list.append((next_pointer,current_count+1))
                 visited.add(next_pointer)
             elif matrix[next_pointer[0]][next_pointer[1]] == 1:
@@ -141,6 +145,7 @@ def get_score(hit_index):
     return result
 
 for i in range(round_num):
+
     # 1. 한칸 이동
     move()
     # 2. 공 쏘고 맞춘 사람 위치 찾기
