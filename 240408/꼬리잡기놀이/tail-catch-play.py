@@ -93,12 +93,13 @@ def bfs(index):
             next_pointer = (next_index[0]+dr[i],next_index[1]+dc[i])
             if next_pointer in visited or check_range(next_pointer[0],next_pointer[1]) == False:
                 continue
-            if matrix[next_pointer[0]][next_pointer[1]] == 2:
+            if matrix[next_pointer[0]][next_pointer[1]]  == 2:
                 next_list.append((next_pointer,current_count+1))
+                visited.add(next_pointer)
             elif matrix[next_pointer[0]][next_pointer[1]] == 1:
                 head =(next_pointer,current_count+1)
-            visited.add(next_pointer)
     return head
+
 
 
 def get_score(hit_index):
