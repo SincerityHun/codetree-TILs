@@ -86,6 +86,7 @@ def bfs(index):
     tail = 0
     if matrix[index[0]][index[1]] == 1:
         head = (index, 1)
+        return head
     while len(next_list) != 0:
         next_index,current_count = next_list.popleft()
         for i in range(4):
@@ -135,6 +136,7 @@ def get_score(hit_index):
         if HEAD[i]==head[0]:
             HEAD[i] = TAIL[i]
             TAIL[i] = head[0]
+            break
     return result
 
 for i in range(round_num):
