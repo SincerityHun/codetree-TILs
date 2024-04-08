@@ -47,8 +47,12 @@ def find_next_specific_value(r,c,value):
     return False
 def move():
     for team in range(team_num):
+        # 바로 있을 경우 생략해쌎ㅎ아 어씨발
         next_head = find_next_specific_value(HEAD[team][0],HEAD[team][1],4)
         next_tail = find_next_specific_value(TAIL[team][0],TAIL[team][1],2)
+        # 바로 붙어있을 경우, tail은 2를 평생 못찾지?
+        if next_tail == False:
+            next_tail = HEAD[team]
         # head 의 값은 2로 , 그 옆의 건 4는 1로
         # tail 의 값은 4로 , 그 옆의 거 2는 3으로
         matrix[HEAD[team][0]][HEAD[team][1]] = 2
