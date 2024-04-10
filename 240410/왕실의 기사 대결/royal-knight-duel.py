@@ -96,6 +96,8 @@ for _ in range(Q):
     i, d = map(int, sys.stdin.readline().rstrip().split())
     i -= 1
     # i번 기사가 d 방향으로 이동하기 위해 고려해야 되는 기사 목록 찾기
+    if not soldier_live[i]:
+        continue
     check_global_list = list()  # 밀수 있다면 얘네 밀면 돼
     check_temp_list = set()  # 얘네가 밀리는지 체크해야해
     check_global_list.append(i)
