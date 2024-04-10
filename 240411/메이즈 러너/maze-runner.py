@@ -28,7 +28,8 @@ for i in range(row_num):
     matrix.append(list(map(int,sys.stdin.readline().rstrip().split())))
 
 # 유저 받기
-user_matrix = [[-1]*row_num for _ in range(row_num)]
+user_matrix = [[set() for x in range(row_num)]for _ in range(row_num)]
+
 user_dict = dict()
 user_exit = [False]*user_num
 user_move = [0]*user_num
@@ -40,7 +41,7 @@ for i in range(user_num):
     r -= 1
     c -= 1
     user_dict[i] =(r,c)
-    user_matrix[r][c] = i
+    user_matrix[r][c].add(i)
 
 # 출구 받기
 exit_index = tuple(map(int, sys.stdin.readline().rstrip().split()))
@@ -57,7 +58,7 @@ def check_people_in(check_r,check_c,turn_maze_row):
         return False
     for i in range(check_r,check_r + turn_maze_row):
         for j in range(check_c, check_c + turn_maze_row):
-            if user_matrix[i][j] != -1:
+            if len(user_matrix[i][j]) != 0:
                 return True
     return False
 
@@ -80,23 +81,24 @@ def turn_matrix(start_r,start_c,turn_maze_row):
 
 # 유저 동기화
 def turn_user_matrix(start_r,start_c,turn_maze_row):
-    temp_matrix = [[-1] * turn_maze_row for _ in range(turn_maze_row)]
+    temp_matrix = [[set() for x in range(turn_maze_row)] for _ in range(turn_maze_row)]
     for i in range(start_r, start_r + turn_maze_row):
         for j in range(start_c, start_c + turn_maze_row):
-            if user_matrix[i][j] != -1:
-                temp_matrix[j - start_c][turn_maze_row - 1 - i + start_r] = user_matrix[i][j]
+            if len(user_matrix[i][j]) != 0:
+                temp_matrix[j - start_c][turn_maze_row - 1 - i + start_r].update(user_matrix[i][j])
 
     for i in range(start_r, start_r + turn_maze_row):
         for j in range(start_c, start_c + turn_maze_row):
             user_ID = temp_matrix[i - start_r][j - start_c]
-            user_matrix[i][j] = user_ID
-            if user_ID != -1:
-                user_dict[user_ID] = (i,j)
+            user_matrix[i][j].clear()
+            user_matrix[i][j].update(user_ID)
+            if len(user_ID) != 0:
+                for id in user_ID:
+                    user_dict[id] = (i,j)
 # 타이머 시작
 for _ in range(time_limit):
     # 참가자 이동
-    for i in range(user_num):
-        # 1. 현재 탈출 못했는지 확인
+    for i in range(user_num): 
         if user_exit[i]:
             continue
         # 2. 현재 거리 계산
@@ -117,15 +119,15 @@ for _ in range(time_limit):
         if cur_dir == -1:
             continue
         # 5. 실제 이동 -> 동기화(user_matrix,user_dict,user_move)
-        user_matrix[cur_r][cur_c] = -1
+        user_matrix[cur_r][cur_c].remove(i)
         next_r, next_c = cur_r + dr[cur_dir], cur_c + dc[cur_dir]
-        user_matrix[next_r][next_c] = i
+        user_matrix[next_r][next_c].add(i)
         user_dict[i] = (next_r,next_c)
         user_move[i] += 1
         # 6. 이동 후 위치 확인 -> 동기화(user_exit)
         if user_dict[i] == exit_index:
             user_exit[i] = True
-            user_matrix[user_dict[i][0]][user_dict[i][1]] = -1
+            user_matrix[user_dict[i][0]][user_dict[i][1]].remove(i)
     # 미로 회전
     for turn_maze_row in range(2,row_num+1):
         # 1. 현재 탈출구 찾기
