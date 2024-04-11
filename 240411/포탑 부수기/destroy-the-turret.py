@@ -67,7 +67,7 @@ def get_attack_path(attack_index, hurt_index) -> list:
     path = list()
     bfs_list = deque()
     bfs_list.append([attack_index])
-
+    
     while len(bfs_list):
         cur_path = bfs_list.popleft()
         visited = set(cur_path)
@@ -122,7 +122,7 @@ def update(attack_path):
     # attack_path을 제외하고, matrix가 0이 아니라면, 1씩 추가
     for i in range(row_num):
         for j in range(col_num):
-            if (i, j) not in attack_path and matrix[i][j]:
+            if ((i, j) not in attack_path) and matrix[i][j]:
                 matrix[i][j] += 1
 
 
