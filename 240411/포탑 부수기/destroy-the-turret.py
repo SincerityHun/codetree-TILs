@@ -10,7 +10,7 @@ for _ in range(row_num):
 num = 0
 for i in range(row_num):
     for j in range(col_num):
-        if not matrix[i][j]:
+        if matrix[i][j] != 0:
             num += 1
 
 # 언제 공격자 해봤는지 턴 저장 2차원 배열
@@ -22,7 +22,7 @@ def get_attack_index():
     # (r,c) = (-matrix,attack_matrix,행과열의합,열) 이 큰 애가 가져감
     # 그때 값 반환
     max_index = 0
-    max_value = (-5001, 0, 0, 0)
+    max_value = (-5000000, 0, 0, 0)
     for i in range(row_num):
         for j in range(col_num):
             temp_value = (-matrix[i][j], attack_matrix[i][j], i + j, j)
@@ -141,10 +141,12 @@ for time in range(1, time_limit + 1):
     attack_index = get_attack_index()
     # 2. 공격 대상 찾기
     hurt_index = get_hurt_index(attack_index)
+
     # 3. 공격 경로 찾기
     attack_path = get_attack_path(attack_index, hurt_index)
     # 4. 공격 하기 -> 관련된 사람 뽑기
     attack(attack_path,time)
+    # 공격 당한 후 1개 남으면 바로 아웃
     if num == 1:
         break
     # 5. 포탑 정비하기
