@@ -26,12 +26,13 @@ def get_attack_index():
     for i in range(row_num):
         for j in range(col_num):
             temp_value = (-matrix[i][j], attack_matrix[i][j], i + j, j)
-            if not temp_value[0]:
+            if temp_value[0] == 0:
                 continue
             if temp_value > max_value:
                 max_value = temp_value
                 max_index = (i, j)
 
+    # 공격력 업데이트
     matrix[max_index[0]][max_index[1]] += (row_num + col_num)
     return max_index
 
@@ -46,7 +47,7 @@ def get_hurt_index(attack_index):
     for i in range(row_num):
         for j in range(col_num):
             temp_value = (matrix[i][j], -attack_matrix[i][j], -(i + j), -j)
-            if (not temp_value[0]) or ((i, j) == attack_index):
+            if (temp_value[0] == 0) or ((i, j) == attack_index):
                 continue
             if temp_value > max_value:
                 max_value = temp_value
@@ -68,12 +69,10 @@ def in_range(r, c, dir):
 
 
 def get_attack_path(attack_index, hurt_index) -> list:
-    # BFS
     # 1. 레이저
     path = list()
     bfs_list = deque()
     bfs_list.append([attack_index])
-
     while len(bfs_list):
         cur_path = bfs_list.popleft()
         visited = set(cur_path)
@@ -86,27 +85,25 @@ def get_attack_path(attack_index, hurt_index) -> list:
             if (not next_index) or (next_index in visited):
                 continue
             bfs_list.append(cur_path + [next_index])
-    if path:
+    if len(path) != 0:
         return path
+
     # 2. 포탑
     path.append(attack_index)
     for dir in range(8):
         next_index = in_range(hurt_index[0], hurt_index[1], dir)
-        if not next_index:
+        if (not next_index) or (next_index == attack_index):
             continue
         path.append(next_index)
 
     path.append(hurt_index)
     return path
-    # 0번 attack_index
-    # 그 사이는 경로상 혹은 그냥 피해받은 애들
-    # 마지막 hurt_index
 
 
 # 공격 하기
 def attack(attack_path,k):
     global num
-    # 0번째의 공격력 받고추가한뒤,matrix,attack_matrix 동기화, 0번째 제외
+    # 0번째의 공격력 받고 추가한뒤, matrix, attack_matrix 동기화, 0번째 제외
     attack_index = attack_path[0]
     attack_value = matrix[attack_index[0]][attack_index[1]]
     attack_matrix[attack_index[0]][attack_index[1]] = k
@@ -131,7 +128,7 @@ def update(attack_path):
     # attack_path을 제외하고, matrix가 0이 아니라면, 1씩 추가
     for i in range(row_num):
         for j in range(col_num):
-            if ((i, j) not in attack_path) and matrix[i][j]:
+            if ((i, j) not in attack_path) and matrix[i][j] != 0:
                 matrix[i][j] += 1
 
 
@@ -141,7 +138,6 @@ for time in range(1, time_limit + 1):
     attack_index = get_attack_index()
     # 2. 공격 대상 찾기
     hurt_index = get_hurt_index(attack_index)
-
     # 3. 공격 경로 찾기
     attack_path = get_attack_path(attack_index, hurt_index)
     # 4. 공격 하기 -> 관련된 사람 뽑기
