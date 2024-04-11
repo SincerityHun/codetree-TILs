@@ -1,50 +1,3 @@
-# N*M 격자
-# 공격력이 잇으며 0 이하가 되었을때, 포탑 부서지며 공격 불가
-# 근데 최초에 0인게 있을 수도 있다.
-# K번 반복
-# 1. 공격자 선정
-# 가장 약한 포탑 공격자 -> 대상이 되며 N+M만큼 공격력 증가
-# 선정 기준
-# 가장 공격력이 낮음
-# 동점이라면? 가장 최근에 공격한 포탑
-# 가장 최근에 공격한 포탑이 2개 이상이라면, 행과 열의 합이 가장 큰 포탑
-# 그게 2개 이상이라면, 열 값이 가장 큰 포탑
-
-# 2. 공격자의 공격
-# 자신을 제외한 가장 강한 포탑 선정 얘를 공격하거임
-# 선정 기준
-# 공격력이 가장 높은
-# 공격한지 가장 오래된 포탑
-# 2개 이상이라면 열과 합이 가장 작은
-# 2개 이상이라면 열값이 가장 작은
-
-# 3. 공격은 2가지 종류
-# 레이저 , 안되면 포탄
-# 레이저
-# 상하좌우
-# 0 인 위치는 지날 수 없음
-# 벽을 뚫으면 반대편으로 나옴
-# 최단 경로로 공격
-# 근데 최단 경로가 없다면? 포탄 공격
-# 최단 경로가 2개이상이라면 우/하/좌/상 우선 순위
-# 공격 대상은 공격자의 공격력 만큼 피해
-# 그 경로에 있는 애들은 절반만큼 피해 2로 나눈 몫
-
-# 포탄
-# 공격 대상이 공격력 만큼 피해 받음
-# 이때, 주위 8개 방향에 있는 포탑도 피해 받음 -> 공격력을 2로 나눈 몫
-# 단, 공격자는 영향 안받음
-# 가장자리에 ㄸ러어졌다면, 추가피해가 반대편 격자
-
-
-# 4. 포탑 부서짐
-# 0 이면 포탑 부서진다.
-
-# 5. 포탑 정비
-# 공격자도 아니고 공격도 받은 적이 없다면, 공격력 1 올라감
-
-# 6. 출력
-# 남아있는 포탑중 가장 강한 포탑의 공격력
 from collections import deque
 
 row_num, col_num, time_limit = map(int, input().split())
@@ -134,6 +87,7 @@ def get_attack_path(attack_index, hurt_index) -> list:
         if not next_index:
             continue
         path.append(next_index)
+
     path.append(hurt_index)
     return path
     # 0번 attack_index
@@ -177,6 +131,8 @@ for time in range(1, time_limit + 1):
     attack_index = get_attack_index()
     # 2. 공격 대상 찾기
     hurt_index = get_hurt_index(attack_index)
+    if hurt_index == 0:
+        break
     # 3. 공격 경로 찾기
     attack_path = get_attack_path(attack_index, hurt_index)
     # 4. 공격 하기 -> 관련된 사람 뽑기
