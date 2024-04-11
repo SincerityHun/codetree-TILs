@@ -25,6 +25,8 @@ def get_attack_index():
             if temp_value > max_value:
                 max_value = temp_value
                 max_index = (i, j)
+
+    matrix[max_index[0]][max_index[1]] += (row_num + col_num)
     return max_index
 
 
@@ -99,8 +101,7 @@ def get_attack_path(attack_index, hurt_index) -> list:
 def attack(attack_path):
     # 0번째의 공격력 받고추가한뒤,matrix,attack_matrix 동기화, 0번째 제외
     attack_index = attack_path[0]
-    attack_value = matrix[attack_index[0]][attack_index[1]] + (row_num + col_num)
-    matrix[attack_index[0]][attack_index[1]] = attack_value
+    attack_value = matrix[attack_index[0]][attack_index[1]]
     attack_matrix[attack_index[0]][attack_index[1]] += 1
     # 경로상 index에는 나누기 2한 몫의 공격력 깍기, matrix 동기화
     length = len(attack_path)
