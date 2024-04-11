@@ -11,7 +11,7 @@ num = 0
 for i in range(row_num):
     for j in range(col_num):
         if not matrix[i][j]:
-            num += 1  
+            num += 1
 
 # 언제 공격자 해봤는지 턴 저장 2차원 배열
 attack_matrix = [[0] * col_num for i in range(row_num)]
@@ -115,13 +115,13 @@ def attack(attack_path):
     for i in range(1, length - 1):
         cur_r, cur_c = attack_path[i]
         matrix[cur_r][cur_c] -= (attack_value // 2)
-        if matrix[cur_r][cur_c] < 0:
+        if matrix[cur_r][cur_c] <= 0:
             matrix[cur_r][cur_c] = 0
             num -= 1
     # 마지막 index에는 풀 공격력, matrix 동기화
     cur_r, cur_c = attack_path[-1]
     matrix[cur_r][cur_c] -= attack_value
-    if matrix[cur_r][cur_c] < 0:
+    if matrix[cur_r][cur_c] <= 0:
         matrix[cur_r][cur_c] = 0
         num -= 1
 
