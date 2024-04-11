@@ -6,6 +6,12 @@ row_num, col_num, time_limit = map(int, input().split())
 matrix = []
 for _ in range(row_num):
     matrix.append(list(map(int, input().split())))
+# 현재 포탑 몇개 있는지
+num = 0
+for i in range(row_num):
+    for j in range(col_num):
+        if not matrix[i][j]:
+            num += 1  
 
 # 언제 공격자 해봤는지 턴 저장 2차원 배열
 attack_matrix = [[0] * col_num for i in range(row_num)]
@@ -67,7 +73,7 @@ def get_attack_path(attack_index, hurt_index) -> list:
     path = list()
     bfs_list = deque()
     bfs_list.append([attack_index])
-    
+
     while len(bfs_list):
         cur_path = bfs_list.popleft()
         visited = set(cur_path)
@@ -99,6 +105,7 @@ def get_attack_path(attack_index, hurt_index) -> list:
 
 # 공격 하기
 def attack(attack_path):
+    global num
     # 0번째의 공격력 받고추가한뒤,matrix,attack_matrix 동기화, 0번째 제외
     attack_index = attack_path[0]
     attack_value = matrix[attack_index[0]][attack_index[1]]
@@ -110,11 +117,13 @@ def attack(attack_path):
         matrix[cur_r][cur_c] -= (attack_value // 2)
         if matrix[cur_r][cur_c] < 0:
             matrix[cur_r][cur_c] = 0
+            num -= 1
     # 마지막 index에는 풀 공격력, matrix 동기화
     cur_r, cur_c = attack_path[-1]
     matrix[cur_r][cur_c] -= attack_value
     if matrix[cur_r][cur_c] < 0:
         matrix[cur_r][cur_c] = 0
+        num -= 1
 
 
 # 포탑 정비하기
@@ -132,12 +141,12 @@ for time in range(1, time_limit + 1):
     attack_index = get_attack_index()
     # 2. 공격 대상 찾기
     hurt_index = get_hurt_index(attack_index)
-    if hurt_index == 0:
-        break
     # 3. 공격 경로 찾기
     attack_path = get_attack_path(attack_index, hurt_index)
     # 4. 공격 하기 -> 관련된 사람 뽑기
     attack(attack_path)
+    if num == 1:
+        break
     # 5. 포탑 정비하기
     update(attack_path)
 
