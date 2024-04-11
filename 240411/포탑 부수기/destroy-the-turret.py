@@ -70,24 +70,26 @@ def in_range(r, c, dir):
 
 def get_attack_path(attack_index, hurt_index) -> list:
     # 1. 레이저
-    path = list()
-    bfs_list = deque()
-    bfs_list.append([attack_index])
-    while len(bfs_list):
-        cur_path = bfs_list.popleft()
-        visited = set(cur_path)
-        cur_r, cur_c = cur_path[-1]
-        if (cur_r, cur_c) == hurt_index:
-            path = cur_path
+    bfs_queue = deque([attack_index])
+    prev = {attack_index: None} # 각 노드의 이전 노드 저장
+    
+    while bfs_queue:
+        cur_index = bfs_queue.popleft()
+        if cur_index == hurt_index:
             break
         for dir in range(4):
-            next_index = in_range(cur_r, cur_c, dir)
-            if (not next_index) or (next_index in visited):
-                continue
-            bfs_list.append(cur_path + [next_index])
-    if len(path) != 0:
+            next_index = in_range(cur_index[0],cur_index[1],dir)
+            if next_index and next_index not in prev:
+                bfs_queue.append(next_index)
+                prev[next_index] = cur_index
+    path = []
+    if hurt_index in prev:
+        cur = hurt_index
+        while cur:
+            path.append(cur)
+            cur = prev[cur]
+        path.reverse()
         return path
-
     # 2. 포탑
     path.append(attack_index)
     for dir in range(8):
