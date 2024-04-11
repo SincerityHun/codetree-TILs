@@ -104,12 +104,12 @@ def get_attack_path(attack_index, hurt_index) -> list:
 
 
 # 공격 하기
-def attack(attack_path):
+def attack(attack_path,k):
     global num
     # 0번째의 공격력 받고추가한뒤,matrix,attack_matrix 동기화, 0번째 제외
     attack_index = attack_path[0]
     attack_value = matrix[attack_index[0]][attack_index[1]]
-    attack_matrix[attack_index[0]][attack_index[1]] += 1
+    attack_matrix[attack_index[0]][attack_index[1]] = k
     # 경로상 index에는 나누기 2한 몫의 공격력 깍기, matrix 동기화
     length = len(attack_path)
     for i in range(1, length - 1):
@@ -144,7 +144,7 @@ for time in range(1, time_limit + 1):
     # 3. 공격 경로 찾기
     attack_path = get_attack_path(attack_index, hurt_index)
     # 4. 공격 하기 -> 관련된 사람 뽑기
-    attack(attack_path)
+    attack(attack_path,time)
     if num == 1:
         break
     # 5. 포탑 정비하기
