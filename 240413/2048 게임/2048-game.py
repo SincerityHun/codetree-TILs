@@ -39,7 +39,7 @@ def get_turn(before_matrix,dir,count):
                     if in_range(b_point[0],b_point[1]):
                         matrix[a_point[0]][a_point[1]] =  matrix[b_point[0]][b_point[1]]
                         matrix[b_point[0]][b_point[1]] = 0
-                        a_point = (a_point[0]+1,a_point[1])
+                        # a_point = (a_point[0]+1,a_point[1])
                         b_point = (a_point[0]+1,a_point[1])
                     continue
                 # b_point가 빈칸이면 다음칸 슛
@@ -85,7 +85,7 @@ def get_turn(before_matrix,dir,count):
                     if in_range(b_point[0],b_point[1]):
                         matrix[a_point[0]][a_point[1]] = matrix[b_point[0]][b_point[1]]
                         matrix[b_point[0]][b_point[1]] = 0
-                        a_point = (a_point[0],a_point[1]-1)
+                        # a_point = (a_point[0],a_point[1]-1)
                         b_point = (a_point[0],a_point[1]-1)
                     continue
                 # b_point가 빈칸이면 다음칸 슛
@@ -131,7 +131,7 @@ def get_turn(before_matrix,dir,count):
                     if in_range(b_point[0],b_point[1]):
                         matrix[a_point[0]][a_point[1]] = matrix[b_point[0]][b_point[1]]
                         matrix[b_point[0]][b_point[1]] = 0
-                        a_point = (a_point[0]-1,a_point[1])
+                        # a_point = (a_point[0]-1,a_point[1])
                         b_point = (a_point[0]-1,a_point[1])
                     continue
                 # b_point가 빈칸이면 다음칸 슛
@@ -177,7 +177,7 @@ def get_turn(before_matrix,dir,count):
                     if in_range(b_point[0],b_point[1]):
                         matrix[a_point[0]][a_point[1]] = matrix[b_point[0]][b_point[1]]
                         matrix[b_point[0]][b_point[1]] = 0
-                        a_point = (a_point[0],a_point[1]+1)
+                        # a_point = (a_point[0],a_point[1]+1)
                         b_point = (a_point[0],a_point[1]+1)
                     continue
                 # b_point가 빈칸이면 다음칸 슛
@@ -209,6 +209,10 @@ def get_turn(before_matrix,dir,count):
     count -= 1
     # 감소한게 0이면 matrix의 value중 최댓값이랑 max_value랑 비교해서 업데이트
     if count != 0:
+        # print(dir,count)
+        # for row in range(row_num):
+        #     print(matrix[row])
+        # print()
         get_turn(matrix, 0, count)
         get_turn(matrix, 1, count)
         get_turn(matrix, 2, count)
@@ -220,6 +224,7 @@ def get_turn(before_matrix,dir,count):
         max_value = value
         # for row in range(row_num):
         #     print(matrix[row])
+        # print()
     return
 
 
