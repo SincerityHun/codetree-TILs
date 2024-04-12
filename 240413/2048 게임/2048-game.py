@@ -16,12 +16,12 @@ for i in range(row_num):
 max_value = 0
 def in_range(r,c):
     return (0<=r<row_num) and (0<=c<row_num)
-def get_turn(before_matrix,dir,count):
+def get_turn(matrix,dir,count):
     global max_value
-    matrix = [[] for i in range(row_num)]
-    for i in range(row_num):
-        for j in range(row_num):
-            matrix[i].append(before_matrix[i][j])
+    # matrix = [[0]*row_num for row in range(row_num)]
+    # for i in range(row_num):
+    #     for j in range(row_num):
+    #         matrix[i][j] = before_matrix[i][j]
     # dir방향으로 matrix을 돌림
     if dir == 0:
         # column고정 row이동
@@ -218,9 +218,11 @@ def get_turn(before_matrix,dir,count):
         get_turn(matrix, 3, count)
         return
     # 감소한게 0이 아니면, 해당 matrix로 dir:0,1,2,3으로 count그대로 보낸다
-    value = max(max(matrix))
+    value = max( max(row) for row in matrix)
     if value > max_value:
         max_value = value
+        # for row in range(row_num):
+        #     print(matrix[row])
     return
 
 
