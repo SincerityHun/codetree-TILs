@@ -53,7 +53,7 @@ def get_turn(before_matrix,dir,count):
                     # b_point자리에 0 넣고
                     matrix[b_point[0]][b_point[1]] = 0
                     # a_point는 a_point 한칸 뒤로
-                    a_point = b_point
+                    a_point = (a_point[0]+1,a_point[1])
                     # b_point는 a point 한칸 뒤로
                     b_point = (a_point[0]+1,a_point[1])
                 # b_point가 a_point와 다른 값이라면?
@@ -99,7 +99,7 @@ def get_turn(before_matrix,dir,count):
                     # b_point자리에 0 넣고
                     matrix[b_point[0]][b_point[1]] = 0
                     # a_point는 a_point 한칸 뒤로
-                    a_point = b_point
+                    a_point = (a_point[0],a_point[1]-1)
                     # b_point는 a point 한칸 뒤로
                     b_point = (a_point[0],a_point[1]-1)
                 # b_point가 a_point와 다른 값이라면?
@@ -145,7 +145,7 @@ def get_turn(before_matrix,dir,count):
                     # b_point자리에 0 넣고
                     matrix[b_point[0]][b_point[1]] = 0
                     # a_point는 a_point 한칸 뒤로
-                    a_point = b_point
+                    a_point = (a_point[0]-1,a_point[1])
                     # b_point는 a point 한칸 뒤로
                     b_point = (a_point[0]-1,a_point[1])
                 # b_point가 a_point와 다른 값이라면?
@@ -191,7 +191,7 @@ def get_turn(before_matrix,dir,count):
                     # b_point자리에 0 넣고
                     matrix[b_point[0]][b_point[1]] = 0
                     # a_point는 a_point 한칸 뒤로
-                    a_point = b_point
+                    a_point = (a_point[0],a_point[1]+1)
                     # b_point는 a point 한칸 뒤로
                     b_point = (a_point[0],a_point[1]+1)
                 # b_point가 a_point와 다른 값이라면?
