@@ -80,7 +80,9 @@ def get_list_work(start_r,start_c,dir):
 def print_matrix(text):
     print(text)
     for i in range(row_num):  # TEST
-        print(matrix[i])
+        for j in range(row_num):
+            print(matrix[i][j], end=" ")
+        print()
     print()
 # print("0회")
 def move_rudol():
@@ -214,6 +216,8 @@ def move_santa(id):
         dict_santa[id] = (next_santa_r,next_santa_c)
         matrix[next_santa_r][next_santa_c] = id
         return
+    if victim_id == id:
+        return
     # 그 index가 1~santa_num이라면
     victim_r,victim_c = next_santa_r,next_santa_c
     # 상호작용으로 영향 받은 index들 계산
@@ -239,6 +243,7 @@ def end_game():
     return True
 # 시뮬레이션
 score = [0]*(santa_num+1) # id번 산타의 점수는 score[id]
+# print_matrix(f"{0}회") # TEST
 for turn in range(turn_num):
     # 1. 루돌프 이동
     move_rudol()
@@ -253,7 +258,7 @@ for turn in range(turn_num):
         move_santa(id)
     if end_game():
         break
-    # print_matrix() #TEST
+    # print_matrix("") #TEST
     # 3. 탈락 안한 산타에게 1점씩 추가 -> live_santa 조회
     for id in range(1,santa_num+1):
         if not live_santa[id]:
