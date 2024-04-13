@@ -104,7 +104,7 @@ def move_rudol():
             min_r = santa_r
             min_c = santa_c
     # 살아 있는 산타가 없으면 나가야지
-    if min_distance == 2*row_num:
+    if min_distance == (row_num**2 + row_num**2 + 1):
         return
     # 8방향 거리 계산 후 가장 가까워지는 방향일때 거리 구해
     min_santa_r, min_santa_c = min_r, min_c
