@@ -57,10 +57,10 @@ for _ in range(santa_num):
     cur_num, cur_r, cur_c = tuple(map(int, input().split()))
     dict_santa[cur_num] = (cur_r-1, cur_c-1)
     matrix[cur_r-1][cur_c-1] = cur_num
-print(0,"회")
-for i in range(row_num):  # TEST
-    print(matrix[i])
-print()
+# print(0,"회")
+# for i in range(row_num):  # TEST
+#     print(matrix[i])
+# print()
 # 범위 확인용
 def in_range(r,c):
     return (0<=r<row_num) and (0<=c<row_num)
@@ -234,34 +234,34 @@ def move_santa(id):
 # 시뮬레이션
 score = [0]*(santa_num+1) # id번 산타의 점수는 score[id]
 for turn in range(turn_num):
-    print(turn+1,"회") # TEST
+    # print(turn+1,"회") # TEST
     # 1. 루돌프 이동
     move_rudol()
-    for i in range(row_num): #TEST
-        print(matrix[i])
-    print()
+    # for i in range(row_num): #TEST
+    #     print(matrix[i])
+    # print()
     # 2. 산타 이동
     for id in range(1,santa_num+1):
         # 이미 죽었거나, 스턴스택이 남아있으면 스킵
         if (not live_santa[id]) or (stun_santa[id] > 0):
             continue
         move_santa(id)
-    for i in range(row_num): #TEST
-        print(matrix[i])
-    print()
+    # for i in range(row_num): #TEST
+    #     print(matrix[i])
+    # print()
     # 3. 탈락 안한 산타에게 1점씩 추가 -> live_santa 조회
     for id in range(1,santa_num+1):
         if not live_santa[id]:
             continue
         score[id] += 1
-    print(turn+1,"회 점수:",end=" ")
-    print(score) # TEST
-    print()
+    # print(turn+1,"회 점수:",end=" ")
+    # print(score) # TEST
+    # print()
     # 4. 기절 스택이 0이 아닌 애들을 1씩 깍자 -> stun_santa 조회
     for id in range(1,santa_num+1):
         if (not live_santa[id]) or (stun_santa[id] == 0):
             continue
         stun_santa[id] -= 1
-        print(id,"의 스턴 스택을 이렇게 되었다.",stun_santa[id])# TEST
+        # print(id,"의 스턴 스택을 이렇게 되었다.",stun_santa[id])# TEST
 for id in range(1,santa_num+1):
     print(score[id],end=" ")
