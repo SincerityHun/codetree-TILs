@@ -57,10 +57,7 @@ for _ in range(santa_num):
     cur_num, cur_r, cur_c = tuple(map(int, input().split()))
     dict_santa[cur_num] = (cur_r-1, cur_c-1)
     matrix[cur_r-1][cur_c-1] = cur_num
-# print(0,"회")
-# for i in range(row_num):  # TEST
-#     print(matrix[i])
-# print()
+
 # 범위 확인용
 def in_range(r,c):
     return (0<=r<row_num) and (0<=c<row_num)
@@ -80,7 +77,12 @@ def get_list_work(start_r,start_c,dir):
         # 그 다음 위치 탐색
         cur_r,cur_c = cur_r+dr[dir],cur_c+dc[dir]
     return result
-
+def print_matrix(text):
+    print(text)
+    for i in range(row_num):  # TEST
+        print(matrix[i])
+    print()
+# print("0회")
 def move_rudol():
     global index_rudol
     # 현재 루돌프 위치 받기-> index rudol
@@ -230,25 +232,28 @@ def move_santa(id):
 
         dict_santa[item_id] = (next_item_r,next_item_c)
         matrix[next_item_r][next_item_c] = item_id
-
+def end_game():
+    for id in range(1,santa_num+1):
+        if live_santa[id]:
+            return False
+    return True
 # 시뮬레이션
 score = [0]*(santa_num+1) # id번 산타의 점수는 score[id]
 for turn in range(turn_num):
-    # print(turn+1,"회") # TEST
     # 1. 루돌프 이동
     move_rudol()
-    # for i in range(row_num): #TEST
-    #     print(matrix[i])
-    # print()
+    if end_game():
+        break
+    # print_matrix(f"{turn+1}회") # TEST
     # 2. 산타 이동
     for id in range(1,santa_num+1):
         # 이미 죽었거나, 스턴스택이 남아있으면 스킵
         if (not live_santa[id]) or (stun_santa[id] > 0):
             continue
         move_santa(id)
-    # for i in range(row_num): #TEST
-    #     print(matrix[i])
-    # print()
+    if end_game():
+        break
+    # print_matrix() #TEST
     # 3. 탈락 안한 산타에게 1점씩 추가 -> live_santa 조회
     for id in range(1,santa_num+1):
         if not live_santa[id]:
