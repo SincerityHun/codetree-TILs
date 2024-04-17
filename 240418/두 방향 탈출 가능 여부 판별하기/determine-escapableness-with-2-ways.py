@@ -12,7 +12,7 @@ dc = [0,1]
 visited = set()
 visited.add(start_index)
 def in_range(cur_r,cur_c):
-    return (0<=cur_r<n)and(0<=cur_c<n)
+    return (0<=cur_r<n)and(0<=cur_c<m)
 def dfs(cur_node):
     cur_r, cur_c = cur_node
     if (cur_r,cur_c) == (n-1,m-1):
