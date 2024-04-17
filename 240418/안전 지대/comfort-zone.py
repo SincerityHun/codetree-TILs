@@ -35,7 +35,7 @@ def bfs(k):
             global_visited.update(visited)
     return result
 count = 0
-max_k = -1
+max_k = 1
 for k in range(1,max([max(row) for row in matrix])+1):
     result = bfs(k)
     if count < result:
