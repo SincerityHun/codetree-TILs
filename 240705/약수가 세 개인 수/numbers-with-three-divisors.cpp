@@ -8,7 +8,7 @@ int main() {
     {
         int cnt = 0;
         for(int i = 1; i <= start/2; i++) if(start % i == 0) cnt++;
-        if(cnt == 3) count ++;
+        if(cnt == 2) count ++;
     }
     cout << count;
     return 0;
