@@ -18,7 +18,9 @@ int main() {
     {
         for(int j = 0; j < limit_count ; j++) cout <<"* ";
         for(int j = 0; j < n-limit_count-1 ; j++) cout <<"  ";
-        cout << "* " << endl;    
+        cout << "* " << endl;
+        limit_count++;
+
     }
     for(int i = 0; i < n; i++) cout<<"* ";
 
