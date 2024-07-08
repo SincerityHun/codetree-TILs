@@ -6,7 +6,7 @@ int main() {
     int a,b;
     int arr[10] = {}; // 0~9까지 몇번?
     cin >> a >> b;    
-    while(a>0)
+    while(a>1)
     {
         int remainder = a % b;
         arr[remainder] ++;
