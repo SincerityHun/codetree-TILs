@@ -23,11 +23,10 @@ int main() {
         else{
             char a,b;
             cin >> a >> b;
-            int idx = s.find(a);
-            while(idx!= string::npos)
+            int idx;
+            while((idx = s.find(a))!= string::npos && a!=b)
             {
                 s[idx] = b;
-                idx = s.find(a);
             }
         }
         cout << s << endl;
