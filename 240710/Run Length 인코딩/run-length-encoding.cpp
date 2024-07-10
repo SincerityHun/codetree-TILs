@@ -1,7 +1,16 @@
 #include <iostream>
 #include <string>
 using namespace std;
-
+int count_digit(int n)
+{
+    int count = 0;
+    while(n>0)
+    {
+        n /= 10;
+        count ++;
+    }
+    return count;
+}
 int main() {
     // 여기에 코드를 작성해주세요.
     string A;
@@ -24,7 +33,13 @@ int main() {
             // cur_item 업데이트
             // cnt 업데이트
     }
-    cout << cnt +2 << endl;
+    int result = 0;
+    for(int i = 0 ; i <= cnt; i+=2)
+    {
+        result++;
+        result += count_digit(arr[i+1]);
+    }
+    cout << result << endl;
     for(int i = 0 ; i <= cnt; i+=2)
     {
         cout << A[arr[i]]<<arr[i+1];
